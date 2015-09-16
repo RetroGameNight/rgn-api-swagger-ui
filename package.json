@@ -13,6 +13,7 @@
   "license": "Apache-2.0",
   "main": "dist/swagger-ui.js",
   "scripts": {
+    "postinstall": "npm run build",
     "build": "gulp",
     "serve": "gulp serve",
     "prejshint": "gulp",
@@ -25,7 +26,7 @@
     "url": "https://github.com/swagger-api/swagger-ui.git"
   },
   "readmeFilename": "README.md",
-  "devDependencies": {
+  "dependencies": {
     "chai": "^2.1.0",
     "cors": "^2.5.3",
     "docco": "^0.7.0",
