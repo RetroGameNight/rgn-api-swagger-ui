@@ -16,6 +16,7 @@ var header = require('gulp-header');
 var pkg = require('./package.json');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
+var template = require('gulp-template');
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
   ' * @version v<%= pkg.version %>',
@@ -121,16 +122,24 @@ gulp.task('copy', ['less'], function() {
 
   // copy all files inside html folder
   gulp
-    .src(['./src/main/html/**/*'])
+    .src(['./src/main/html/**/!(*.html)'])
     .pipe(gulp.dest('./dist'))
     .on('error', log);
+
+  gulp
+    .src('./src/main/html/*.html')
+    .pipe(template({apiDocsUrl: process.env.API_DOCS_URL || 'http://localhost:3000/api-docs.json'}))
+    .pipe(gulp.dest('./dist'))
+    .on('error', log);
+
+
 });
 
 /**
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{js,less,handlebars}'], function() {
+  return watch(['./src/**/*.{js,less,handlebars,html}'], function() {
     gulp.start('default');
   });
 });
